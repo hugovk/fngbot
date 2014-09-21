@@ -5,7 +5,10 @@ Unit tests for fngbot.py
 """
 from __future__ import print_function
 from __future__ import unicode_literals
-import unittest
+try:
+    import unittest
+except ImportError:
+    import unittest2 as unittest
 import fngbot
 
 
