@@ -9,6 +9,8 @@ python:
  - 2.6
  - 3.2
 
+sudo: false
+
 install:
  - pip install -r requirements.txt
  - pip install coverage
