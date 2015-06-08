@@ -20,9 +20,6 @@ except:
     pass
 
 
-FNG_DATA = "fng-data-dc.xml"
-
-
 # Windows cmd.exe cannot do Unicode so encode first
 def print_it(text):
     print(text.encode('utf-8'))
@@ -33,23 +30,24 @@ def timestamp():
     print(datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p"))
 
 
-def download_xml():
-    if not os.path.exists(FNG_DATA):
+def download_xml(filename):
+    if not os.path.exists(filename):
         print("Download xml")
         import wget  # pip install wget
+        # Assumes filename is just filename with has no path:
         url = ("https://github.com/hugovk/finnishnationalgallery/blob/master/"
-               "fng-data-dc.xml?raw=true")
-        wget.download(url, out=FNG_DATA)
+               + filename + "?raw=true")
+        wget.download(url, out=filename)
         print("")
 
 
-def get_all_artworks():
+def get_all_artworks(filename):
     """Return selected fields of all artworks in the XML"""
 
     artworks = []
 
     print("Parse file")
-    tree = parse(FNG_DATA)
+    tree = parse(filename)
     root = tree.getroot()
 
     print("Find")
@@ -310,13 +308,16 @@ if __name__ == '__main__':
         '-y', '--yaml',
         # default='/Users/hugo/Dropbox/bin/data/fngbot.yaml',
         default='M:/bin/data/fngbot.yaml',
-        help="YAML file location containing Twitter key and secret          ")
+        help="YAML file location containing Twitter key and secret")
     parser.add_argument(
         '-x', '--test', action='store_true',
         help="Test mode: don't tweet")
     parser.add_argument(
         '-nw', '--no-web', action='store_true',
         help="Don't open a web browser to show the tweeted tweet")
+    parser.add_argument(
+        '--xml', default='fng-data-dc.xml',
+        help="XML file location containing artwork data")
     parser.add_argument(
         '-u', '--unit',
         choices=['ateneum', 'kiasma', 'sinebrychoff'],
@@ -330,8 +331,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print(args)
 
-    download_xml()
-    artworks = get_all_artworks()
+    download_xml(args.xml)
+    artworks = get_all_artworks(args.xml)
     print(str(len(artworks)) + " artworks found")
 
     artwork = random_artwork(artworks)
