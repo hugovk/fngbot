@@ -11,7 +11,7 @@ import os
 import random
 from twitter import *  # pip install twitter
 import webbrowser
-import yaml  # pip install pyaml
+import yaml  # pip install pyyaml
 from xml.etree.cElementTree import parse
 
 try:
