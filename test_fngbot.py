@@ -173,7 +173,7 @@ class TestIt(unittest.TestCase):
     def test_unicode_unnamed(self):
         # Arrange
         artwork = [["ID001", "ID002"],
-                  u"nimetön", "", "",
+                  "nimetön", "", "",
                   "Creator",
                   "2014",
                   "http://example.com/thing/ABC123"]

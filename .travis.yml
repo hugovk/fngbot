@@ -4,18 +4,15 @@ python:
  - pypy
  - pypy3
  - 2.7
- - 3.3
  - 3.4
  - 3.5
- - 2.6
- - 3.2
+ - 3.6
 
 sudo: false
 
 install:
  - pip install -r requirements.txt
  - pip install coverage
- - if [ "$TRAVIS_PYTHON_VERSION" == "2.6" ]; then pip install unittest2; fi
 
 script:
  - coverage run --source=fngbot ./test_fngbot.py
@@ -31,7 +28,4 @@ after_script:
  - pyflakes *.py | tee >(wc -l)
 
 matrix:
-  allow_failures:
-    - python: 2.6
-    - python: 3.2
   fast_finish: true
