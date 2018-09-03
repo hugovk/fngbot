@@ -144,7 +144,9 @@ class TestIt(unittest.TestCase):
     def test_1_long_title(self):
         # Arrange
         artwork = [["ID001", "ID002"],
-                  "Finnish title", "A long English title which would mean the length of the tweet, with added creator, creation date and both links, would exceed the maximum permitted 140 characters.", "Swedish title",
+                  "Finnish title",
+                   "An extremely long English title which would mean the length of the tweet, with added creator, creation date and both links, would, at the end of the day, when all is said and done, and other such verbiage as to make this longer, and yet longer, in fact, and without a shadow of a doubt, exceed the maximum permitted 280 characters.",
+                   "Swedish title",
                   "Creator",
                   "2014",
                   "http://example.com/thing/ABC123"]
@@ -153,7 +155,10 @@ class TestIt(unittest.TestCase):
         tweet = fngbot.build_tweet(artwork)
 
         # Assert
-        self.assertEqual(tweet, "A long English title which would mean the length of the tweet, with added c… by Creator (2014) http://example.com/thing/ABC123&lang=en http://kokoelmat.fng.fi/app?action=image&iid=ID001&profile=topicartworkbignew#.jpg")
+        self.assertEqual(
+            tweet,
+            "An extremely long English title which would mean the length of the tweet, with added creator, creation date and both links, would, at the end of the day, when all is said and done, and other such verbiage as to make… by Creator (2014) http://example.com/thing/ABC123&lang=en http://kokoelmat.fng.fi/app?action=image&iid=ID001&profile=topicartworkbignew#.jpg",
+        )
 
     def test_unnamed(self):
         # Arrange

@@ -240,8 +240,8 @@ def build_tweet(artwork):
         creator = " " + creator
 
     # Title might be too long, find length of others first.
-    # We have 140 chars to use.
-    remaining = 140
+    # We have 280 chars to use.
+    remaining = 280
     remaining -= len(creator)
     remaining -= len(creation_date)
     remaining -= 1  # space before link
