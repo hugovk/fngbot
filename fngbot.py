@@ -9,6 +9,7 @@ from __future__ import unicode_literals
 import argparse
 import os
 import random
+import sys
 from twitter import *  # pip install twitter
 import webbrowser
 import yaml  # pip install pyyaml
