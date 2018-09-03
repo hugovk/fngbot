@@ -37,7 +37,8 @@ def download_xml(filename):
         print("Download xml")
         import wget  # pip install wget
         # Assumes filename is just filename with has no path:
-        url = ("https://github.com/hugovk/finnishnationalgallery/blob/master/"
+        url = ("https://github.com/hugovk/finnishnationalgallery/blob/"
+               "2ff8ffd3647f7a2413b3e85d003b8d2db2b71327/"
                + filename + "?raw=true")
         wget.download(url, out=filename)
         print("")
