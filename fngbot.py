@@ -14,11 +14,11 @@ import webbrowser
 from xml.etree.cElementTree import parse
 
 import yaml  # pip install pyyaml
-from twitter import *  # pip install twitter
+from twitter import OAuth, Twitter  # pip install twitter
 
 try:
-    import timing
-except:
+    import timing  # noqa
+except ImportError:
     pass
 
 
@@ -370,8 +370,6 @@ if __name__ == "__main__":
 
     artwork = random_artwork(artworks)
     if artwork is None:
-        import sys
-
         sys.exit("No artwork found")
 
     twitter_credentials = load_yaml(args.yaml)
