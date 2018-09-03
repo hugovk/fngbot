@@ -24,11 +24,12 @@ except:
 
 # Windows cmd.exe cannot do Unicode so encode first
 def print_it(text):
-    print(text.encode('utf-8'))
+    print(text.encode("utf-8"))
 
 
 def timestamp():
     import datetime
+
     print(datetime.datetime.now().strftime("%A, %d. %B %Y %I:%M%p"))
 
 
@@ -36,10 +37,12 @@ def download_xml(filename):
     if not os.path.exists(filename):
         print("Download xml")
         import wget  # pip install wget
+
         # Assumes filename is just filename with has no path:
-        url = ("https://github.com/hugovk/finnishnationalgallery/blob/"
-               "2ff8ffd3647f7a2413b3e85d003b8d2db2b71327/"
-               + filename + "?raw=true")
+        url = (
+            "https://github.com/hugovk/finnishnationalgallery/blob/"
+            "2ff8ffd3647f7a2413b3e85d003b8d2db2b71327/" + filename + "?raw=true"
+        )
         wget.download(url, out=filename)
         print("")
 
@@ -81,12 +84,11 @@ def get_all_artworks(filename):
                 elif grandchild.text == "artist":
                     break
 
-            elif grandchild.tag == \
-                    "{http://purl.org/dc/elements/1.1/}relation":
+            elif grandchild.tag == "{http://purl.org/dc/elements/1.1/}relation":
                 # print(grandchild.tag)
                 # print(grandchild.attrib)
                 # print(grandchild.text)
-                if grandchild.attrib == {'type': 'image'}:
+                if grandchild.attrib == {"type": "image"}:
                     image_ids.append(grandchild.text)
                     # print(grandchild.text)
 
@@ -94,26 +96,25 @@ def get_all_artworks(filename):
                 # print(grandchild.tag)
                 # print(grandchild.attrib)
                 # print(grandchild.text)
-                if grandchild.attrib == {'lang': 'fi'}:
+                if grandchild.attrib == {"lang": "fi"}:
                     title_fi = grandchild.text
-                elif grandchild.attrib == {'lang': 'en'}:
+                elif grandchild.attrib == {"lang": "en"}:
                     title_en = grandchild.text
-                elif grandchild.attrib == {'lang': 'se'}:
+                elif grandchild.attrib == {"lang": "se"}:
                     title_se = grandchild.text
 
-            elif grandchild.tag == \
-                    "{http://purl.org/dc/elements/1.1/}identifier":
+            elif grandchild.tag == "{http://purl.org/dc/elements/1.1/}identifier":
                 # print(grandchild.tag)
                 # print(grandchild.attrib)
                 # print(grandchild.text)
-                if grandchild.attrib == {'type': 'uri'}:
+                if grandchild.attrib == {"type": "uri"}:
                     uri = grandchild.text
 
             elif grandchild.tag == "{http://purl.org/dc/elements/1.1/}date":
                 # print(grandchild.tag)
                 # print(grandchild.attrib)
                 # print(grandchild.text)
-                if grandchild.attrib == {'type': 'creation'}:
+                if grandchild.attrib == {"type": "creation"}:
                     creation_date = grandchild.text
 
             elif grandchild.tag == "{http://purl.org/dc/elements/1.1/}creator":
@@ -123,13 +124,12 @@ def get_all_artworks(filename):
                 # if grandchild.attrib == {'type': 'c'}:
                 creator = grandchild.text
 
-            if (args.unit):
-                if grandchild.tag == \
-                        "{http://purl.org/dc/elements/1.1/}publisher":
+            if args.unit:
+                if grandchild.tag == "{http://purl.org/dc/elements/1.1/}publisher":
                     # print(grandchild.tag)
                     # print(grandchild.attrib)
                     # print(grandchild.text)
-                    if grandchild.attrib == {'type': 'unit'}:
+                    if grandchild.attrib == {"type": "unit"}:
                         unit = grandchild.text
                         # print(args.unit, unit)
                         if not unit.lower().startswith(args.unit):
@@ -137,12 +137,17 @@ def get_all_artworks(filename):
 
         if artwork and unit_ok:
             if len(image_ids):
-                artworks.append([image_ids,
-                                 title_fi, title_en, title_se,
-                                 creator,
-                                 creation_date,
-                                 uri
-                                 ])
+                artworks.append(
+                    [
+                        image_ids,
+                        title_fi,
+                        title_en,
+                        title_se,
+                        creator,
+                        creation_date,
+                        uri,
+                    ]
+                )
 
     return artworks
 
@@ -169,8 +174,7 @@ def link_length(link):
 
 
 def build_tweet(artwork):
-    image_ids, title_fi, title_en, title_se, creator, creation_date, uri = \
-        artwork
+    image_ids, title_fi, title_en, title_se, creator, creation_date, uri = artwork
     tweet = ""
 
     # Prepare values
@@ -180,8 +184,10 @@ def build_tweet(artwork):
     # http://kokoelmat.fng.fi/app?action=image&iid=A0027200&profile=topicartworkbignew
     # http://kokoelmat.fng.fi/app?action=image&iid=A0027200&profile=selectorthumb
 
-    img_link = ("http://kokoelmat.fng.fi/app?action=image&iid={}&profile="
-                "topicartworkbignew#.jpg".format(image_ids[0]))
+    img_link = (
+        "http://kokoelmat.fng.fi/app?action=image&iid={}&profile="
+        "topicartworkbignew#.jpg".format(image_ids[0])
+    )
     print(img_link)
 
     # Pick a title
@@ -214,8 +220,9 @@ def build_tweet(artwork):
     # Most creation dates aren't in brackets, but some are.
     # Remove any brackets, then add them.
     if len(creation_date):
-        if (creation_date[0] == "(" and creation_date[-1] == ")") or \
-           (creation_date[0] == "[" and creation_date[-1] == "]"):
+        if (creation_date[0] == "(" and creation_date[-1] == ")") or (
+            creation_date[0] == "[" and creation_date[-1] == "]"
+        ):
             creation_date = creation_date[1:-1]
         creation_date = "(" + creation_date + ")"
 
@@ -250,7 +257,7 @@ def build_tweet(artwork):
     remaining -= link_length(img_link)
 
     if len(title) > remaining:
-        title = title[:remaining - 1] + "…"  # 1: ellipsis
+        title = title[: remaining - 1] + "…"  # 1: ellipsis
 
     print_it("T:" + title + ":T")
     print_it("C:" + creator + ":C")
@@ -270,8 +277,10 @@ def load_yaml(filename):
 
     keys = data.viewkeys() if sys.version_info.major == 2 else data.keys()
     if not keys >= {
-        'oauth_token', 'oauth_token_secret',
-        'consumer_key', 'consumer_secret'
+        "oauth_token",
+        "oauth_token_secret",
+        "consumer_key",
+        "consumer_secret",
     }:
         sys.exit("Twitter credentials missing from YAML: " + filename)
     return data
@@ -284,10 +293,14 @@ def tweet_it(string, credentials):
     # Create and authorise an app with (read and) write access at:
     # https://dev.twitter.com/apps/new
     # Store credentials in YAML file. See data/onthisday_example.yaml
-    t = Twitter(auth=OAuth(credentials['oauth_token'],
-                           credentials['oauth_token_secret'],
-                           credentials['consumer_key'],
-                           credentials['consumer_secret']))
+    t = Twitter(
+        auth=OAuth(
+            credentials["oauth_token"],
+            credentials["oauth_token_secret"],
+            credentials["consumer_key"],
+            credentials["consumer_secret"],
+        )
+    )
 
     print_it("TWEETING THIS:\n" + string)
 
@@ -295,45 +308,59 @@ def tweet_it(string, credentials):
         print("(Test mode, not actually tweeting)")
     else:
         result = t.statuses.update(status=string)
-        url = ("http://twitter.com/" + result['user']['screen_name'] +
-               "/status/" + result['id_str'])
+        url = (
+            "http://twitter.com/"
+            + result["user"]["screen_name"]
+            + "/status/"
+            + result["id_str"]
+        )
         print("Tweeted:\n" + url)
         if not args.no_web:
             webbrowser.open(url, new=2)  # 2 = open in a new tab, if possible
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     timestamp()
 
     parser = argparse.ArgumentParser(
         description="I am a bot that tweets an object from the collection of "
-                    "the Finnish National Gallery: Ateneum, Kiasma and "
-                    "Sinebrychoff art museums.",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        "the Finnish National Gallery: Ateneum, Kiasma and "
+        "Sinebrychoff art museums.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
     parser.add_argument(
-        '-y', '--yaml',
+        "-y",
+        "--yaml",
         # default='/Users/hugo/Dropbox/bin/data/fngbot.yaml',
-        default='M:/bin/data/fngbot.yaml',
-        help="YAML file location containing Twitter key and secret")
+        default="M:/bin/data/fngbot.yaml",
+        help="YAML file location containing Twitter key and secret",
+    )
     parser.add_argument(
-        '-x', '--test', action='store_true',
-        help="Test mode: don't tweet")
+        "-x", "--test", action="store_true", help="Test mode: don't tweet"
+    )
     parser.add_argument(
-        '-nw', '--no-web', action='store_true',
-        help="Don't open a web browser to show the tweeted tweet")
+        "-nw",
+        "--no-web",
+        action="store_true",
+        help="Don't open a web browser to show the tweeted tweet",
+    )
     parser.add_argument(
-        '--xml', default='fng-data-dc.xml',
-        help="XML file location containing artwork data")
+        "--xml",
+        default="fng-data-dc.xml",
+        help="XML file location containing artwork data",
+    )
     parser.add_argument(
-        '-u', '--unit',
-        choices=['ateneum', 'kiasma', 'sinebrychoff'],
+        "-u",
+        "--unit",
+        choices=["ateneum", "kiasma", "sinebrychoff"],
         help="Unit of Finnish National Gallery that houses the artwork. "
-             "Either Ateneum, Kiasma or Sinebrychoff Art Museum (SF). "
-             "Sinebrychoff Art Museum houses old international art from the "
-             "14th century to the early 19th century. The Ateneum Art Museum "
-             "houses pre-1960 Finnish art and international art from the "
-             "19th and 20th centuries. The Museum of Contemporary Art Kiasma "
-             "houses post-1960 Finnish and international art.")
+        "Either Ateneum, Kiasma or Sinebrychoff Art Museum (SF). "
+        "Sinebrychoff Art Museum houses old international art from the "
+        "14th century to the early 19th century. The Ateneum Art Museum "
+        "houses pre-1960 Finnish art and international art from the "
+        "19th and 20th centuries. The Museum of Contemporary Art Kiasma "
+        "houses post-1960 Finnish and international art.",
+    )
     args = parser.parse_args()
     print(args)
 
@@ -344,6 +371,7 @@ if __name__ == '__main__':
     artwork = random_artwork(artworks)
     if artwork is None:
         import sys
+
         sys.exit("No artwork found")
 
     twitter_credentials = load_yaml(args.yaml)
