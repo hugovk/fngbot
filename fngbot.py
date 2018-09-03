@@ -4,16 +4,17 @@
 I am a bot that tweets an object from the collection of the Finnish National
 Gallery: Ateneum, Kiasma and Sinebrychoff art museums.
 """
-from __future__ import print_function
-from __future__ import unicode_literals
+from __future__ import print_function, unicode_literals
+
 import argparse
 import os
 import random
 import sys
-from twitter import *  # pip install twitter
 import webbrowser
-import yaml  # pip install pyyaml
 from xml.etree.cElementTree import parse
+
+import yaml  # pip install pyyaml
+from twitter import *  # pip install twitter
 
 try:
     import timing
