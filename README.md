@@ -1,6 +1,9 @@
 fngbot
 ======
 
+[![Build Status](https://travis-ci.org/hugovk/fngbot.svg?branch=master)](https://travis-ci.org/hugovk/fngbot)
+[![Coverage Status](https://coveralls.io/repos/github/hugovk/fngbot/badge.svg?branch=master)](https://coveralls.io/github/hugovk/fngbot?branch=master)
+
 I am a bot that tweets an object from the collection of the Finnish National Gallery: Ateneum, Kiasma and Sinebrychoff art museums.
 
 Thanks to the Finnish National Gallery for releasing data on their 36 000+ artworks.
