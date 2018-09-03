@@ -1,4 +1,5 @@
 language: python
+cache: pip
 
 python:
  - pypy
@@ -11,14 +12,14 @@ python:
 sudo: false
 
 install:
- - pip install -r requirements.txt
- - pip install coverage
+ - pip install -Ur requirements.txt
+ - pip install -U coverage
 
 script:
  - coverage run --source=fngbot ./test_fngbot.py
 
 after_success:
- - pip install coveralls
+ - pip install -U coveralls
  - coveralls
 
 after_script:
